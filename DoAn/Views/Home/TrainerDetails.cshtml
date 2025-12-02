@@ -1,0 +1,111 @@
+﻿@model DoAn.Models.ViewModels.TrainerVM
+
+@{
+    ViewBag.Title = "Chi tiết Trainer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var classes = Model.Classes ?? new List<DoAn.GymClass>();
+    double avg = Model.AverageRating;
+    int count = Model.RatingCount;
+    var fullName = !string.IsNullOrEmpty(Model.FullName) ? Model.FullName : Model.Username;
+}
+
+<div class="card shadow-sm p-4">
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <img src="@Model.Avatar"
+                 class="img-fluid rounded"
+                 style="max-height:250px; object-fit:cover;" />
+        </div>
+
+        <div class="col-md-8">
+            <h2>@fullName</h2>
+            <p><strong>Username:</strong> @Model.Username</p>
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>Giới tính:</strong> @Model.Gender</p>
+            <p><strong>Ngày sinh:</strong> @(Model.BirthDate?.ToString("dd/MM/yyyy") ?? "-")</p>
+            <p><strong>Địa chỉ:</strong> @Model.Address</p>
+            <p><strong>Kinh nghiệm:</strong> @(Model.ExperienceYears ?? 0) năm</p>
+            <p><strong>Chuyên môn:</strong> @Model.Specialties</p>
+            <p><strong>Mô tả:</strong> @Model.Description</p>
+
+            <p class="mt-2">
+                <strong>Rating:</strong>
+                @if (count == 0)
+                {
+                    <span class="text-muted">Chưa có đánh giá</span>
+                }
+                else
+                {
+                    <span class="text-warning">@avg.ToString("0.0") ★</span>
+                    <small class="text-muted">(@count đánh giá)</small>
+                }
+            </p>
+
+            <div class="mt-3">
+                @if (Model.IsAvailableForPT && Model.AvailablePTSlots.Any())
+                {
+                    <form asp-action="BookPT" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="trainerId" value="@Model.UserId" />
+
+                        <div class="mb-2">
+                            <label for="numSessions" class="form-label">Số buổi muốn đăng ký:</label>
+                            <input type="number" class="form-control" id="numSessions" name="numSessions" min="1" max="10" value="1" />
+                        </div>
+
+                        <div class="mb-2">
+                            <label for="ptSlotId" class="form-label">Chọn khung giờ PT:</label>
+                            <select id="ptSlotId" name="ptSlotId" class="form-control" required>
+                                @foreach (var slot in Model.AvailablePTSlots)
+                                {
+                                    <option value="@slot.SlotId">
+                                        @slot.StartTime.ToString(@"hh\:mm") - @slot.EndTime.ToString(@"hh\:mm")
+                                    </option>
+                                }
+                            </select>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-success">
+                            Đăng ký PT 1-1
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <button class="btn btn-secondary" disabled>
+                        Trainer hiện không nhận PT 1-1 / Không còn slot
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<h3 class="mt-4">Các lớp của Trainer</h3>
+
+<div class="row">
+    @if (classes.Any())
+    {
+        foreach (var c in classes)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5>@c.Name</h5>
+                        <p class="text-muted">@c.Description</p>
+                        <a href="@Url.Action("ClassDetails", "Home", new { classId = c.ClassId })"
+                           class="btn btn-primary btn-sm">Xem lớp</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-muted">Không có lớp nào.</p>
+    }
+</div>

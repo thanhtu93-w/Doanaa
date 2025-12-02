@@ -1,0 +1,87 @@
+﻿@model DoAn.Models.PackageIndexViewModel
+@{
+    ViewBag.Title = "Gói tập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var isLoggedIn = Session["UserId"] != null;
+}
+
+<h2>Danh sách gói tập</h2>
+<div class="row">
+    @if (Model.AllPackages != null && Model.AllPackages.Any())
+    {
+        foreach (var p in Model.AllPackages)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5>@p.Name</h5>
+                        <p class="text-muted">Loại: @p.PackageType</p>
+                        <p class="text-muted">Số buổi: @p.TotalSessions</p>
+
+                        @if (isLoggedIn)
+                        {
+                            using (Html.BeginForm("Subscribe", "Package", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("packageId", p.PackageId)
+                                <button type="submit" class="btn btn-primary btn-sm"
+                                        onclick="return confirm('Bạn có chắc muốn đăng ký gói tập này không?');">
+                                    Đăng ký
+                                </button>
+                            }
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Login", "Account")" class="btn btn-primary btn-sm">Đăng ký</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-muted">Chưa có gói tập nào.</p>
+    }
+</div>
+
+<hr />
+<h2>Gói bạn đang sở hữu</h2>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Tên gói</th>
+            <th>Loại</th>
+            <th>Số buổi còn lại</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.MyPackages != null && Model.MyPackages.Any())
+        {
+            foreach (var mp in Model.MyPackages)
+            {
+                <tr>
+                    <td>@mp.Package.Name</td>
+                    <td>@mp.Package.PackageType</td>
+                    <td>@mp.SessionsRemaining</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3" class="text-muted">Bạn chưa sở hữu gói nào.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger mt-2">@TempData["Error"]</div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success mt-2">@TempData["Success"]</div>
+}

@@ -1,0 +1,36 @@
+﻿@model List<DoAn.Models.TrainerRatingViewModel>
+
+@{
+    ViewBag.Title = "Đánh giá Trainer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Đánh giá Trainer</h2>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Trainer</th>
+                <th>Member</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Ngày đánh giá</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.RatingId</td>
+                    <td>@r.TrainerUsername</td>
+                    <td>@r.MemberUsername</td>
+                    <td>@r.Rating</td>
+                    <td>@r.Comment</td>
+                    <td>@(r.CreatedAt?.ToLocalTime().ToString("g"))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

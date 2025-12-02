@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Tạo thông báo";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+<h2 class="mt-3">Tạo thông báo cho User</h2>
+
+@using (Html.BeginForm("Create", "Notification", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label for="userId" class="form-label">Người nhận</label>
+        <select class="form-select" id="userId" name="userId" required>
+            <option value="">-- Chọn User --</option>
+            @foreach (var u in new DoAn.GymCenterDBEntities1().Users.ToList())
+            {
+                <option value="@u.UserId">@u.Username (@u.Role)</option>
+            }
+        </select>
+        @Html.ValidationMessage("", "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        <label for="message" class="form-label">Nội dung thông báo</label>
+        <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+        @Html.ValidationMessage("", "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-success">Tạo thông báo</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Hủy</a>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success mt-3">@TempData["Success"]</div>
+}

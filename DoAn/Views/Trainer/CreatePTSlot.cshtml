@@ -1,0 +1,35 @@
+﻿@model DoAn.Models.PTSlotViewModel
+@{
+    ViewBag.Title = "Tạo khung giờ PT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Tạo khung giờ PT cố định cho tuần</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@using (Html.BeginForm("CreatePTSlot", "Trainer", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group mb-3">
+        <label>Giờ bắt đầu</label>
+        @Html.TextBoxFor(m => m.StartHour, new { @class = "form-control", type = "time" })
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Giờ kết thúc</label>
+        @Html.TextBoxFor(m => m.EndHour, new { @class = "form-control", type = "time" })
+    </div>
+
+    <p>Lưu ý: Khoảng cách giờ phải tối thiểu 1 giờ 30 phút.</p>
+
+    <button type="submit" class="btn btn-primary">Tạo khung giờ</button>
+}

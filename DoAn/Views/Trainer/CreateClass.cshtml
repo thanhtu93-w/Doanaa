@@ -1,0 +1,116 @@
+﻿@model DoAn.Models.CreateClassViewModel
+@{
+    ViewBag.Title = "Tạo lớp mới";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Tạo lớp Group Class</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+@using (Html.BeginForm("CreateClass", "Trainer", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group mb-3">
+        <label>Tên lớp</label>
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Tên lớp" })
+        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Mô tả</label>
+        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = "3" })
+        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label>Giờ bắt đầu</label>
+            @Html.TextBoxFor(m => m.TimeFrom, new { @class = "form-control", type = "time", id = "TimeFrom" })
+            @Html.ValidationMessageFor(m => m.TimeFrom, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label>Giờ kết thúc</label>
+            @Html.TextBoxFor(m => m.TimeTo, new { @class = "form-control", type = "time", id = "TimeTo" })
+            @Html.ValidationMessageFor(m => m.TimeTo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Lịch lặp lại</label>
+        @Html.DropDownListFor(m => m.RecurrenceDays,
+            new SelectList(new[]
+            {
+                new { Value = "", Text = "-- Chọn lịch --" },
+                new { Value = "2,4,6", Text = "Thứ 2 - 4 - 6" },
+                new { Value = "3,5,7", Text = "Thứ 3 - 5 - 7" }
+            }, "Value", "Text"), new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.RecurrenceDays, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label>Duration (phút)</label>
+            @Html.TextBoxFor(m => m.DurationMinutes, new { @class = "form-control", type = "number", id = "DurationMinutes", @readonly = "readonly" })
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label>Capacity</label>
+            @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", type = "number" })
+            @Html.ValidationMessageFor(m => m.Capacity, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-check mb-3">
+        @Html.CheckBoxFor(m => m.IsFeatured, new { @class = "form-check-input" })
+        <label class="form-check-label">Nổi bật</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Đề xuất lớp</button>
+}
+
+@section Scripts{
+    <script>
+        function updateDuration() {
+            var startInput = document.getElementById("TimeFrom");
+            var endInput = document.getElementById("TimeTo");
+            var durationInput = document.getElementById("DurationMinutes");
+
+            if (!startInput || !endInput || !durationInput) return;
+
+            var start = startInput.value;
+            var end = endInput.value;
+
+            if (start && end) {
+                var startDate = new Date("2000-01-01T" + start);
+                var endDate = new Date("2000-01-01T" + end);
+
+                var diff = (endDate - startDate) / 60000; // phút
+
+                if (diff < 60) {
+                    durationInput.value = "";
+                    alert("Thời lượng phải từ 60 phút trở lên!");
+                } else {
+                    durationInput.value = diff;
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var startInput = document.getElementById("TimeFrom");
+            var endInput = document.getElementById("TimeTo");
+
+            if (startInput) startInput.addEventListener("change", updateDuration);
+            if (endInput) endInput.addEventListener("change", updateDuration);
+        });
+    </script>
+}

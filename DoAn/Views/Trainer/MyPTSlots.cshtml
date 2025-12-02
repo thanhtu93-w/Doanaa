@@ -1,0 +1,41 @@
+﻿@model List<DoAn.Models.PTSlotDisplayViewModel>
+@{
+    ViewBag.Title = "Slot PT của tôi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Slot PT</h2>
+<a href="@Url.Action("CreatePTSlot", "Trainer")" class="btn btn-success mb-3">Tạo khung giờ mới</a>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Bắt đầu</th>
+            <th>Kết thúc</th>
+            <th>Status</th>
+            <th>Member</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.StartTime.ToString(@"hh\:mm")</td>
+                <td>@s.EndTime.ToString(@"hh\:mm")</td>
+                <td>@s.Status</td>
+                <td>@(s.MemberUsername ?? "-")</td>
+                <td>
+                    @if (s.MemberId != null)
+                    {
+                        <a href="@Url.Action("ScheduleSlot", "Trainer", new { slotId = s.SlotId })" class="btn btn-sm btn-primary">Lên lịch</a>
+                    }
+                    else
+                    {
+                        <button class="btn btn-sm btn-secondary" disabled>Trống</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

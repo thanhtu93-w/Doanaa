@@ -1,0 +1,111 @@
+﻿@model List<DoAn.Attendance>
+
+@{
+    ViewBag.Title = "Lịch sử tham gia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int memberId = Convert.ToInt32(Session["UserId"]);
+}
+
+<h2 class="mt-3">LỊCH SỬ THAM GIA</h2>
+
+<!-- ====================== PHẦN 1: ATTENDANCE PT  ====================== -->
+<h3 class="mt-4 text-primary">PT 1-1</h3>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Ngày</th>
+            <th>PT</th>
+            <th>Trạng thái</th>
+            <th>Bắt đầu</th>
+            <th>Kết thúc</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var ptList = Model
+                .Where(a => a.SlotId != null
+                    && a.PTSlot != null
+                    && a.PTSlot.MemberId == memberId)    // Lọc slot PT của member
+                .OrderByDescending(a => a.AttendanceTime)
+                .ToList();
+        }
+
+        @if (ptList.Any())
+        {
+            foreach (var a in ptList)
+            {
+                <tr>
+                    <td>@a.AttendanceTime.ToString("dd/MM/yyyy")</td>
+                    <td>PT 1-1</td>
+                    <td>
+                        @switch (a.Status)
+                        {
+                            case "Present":<span class="badge bg-success">Có mặt</span>; break;
+                            case "Late": <span class="badge bg-warning text-dark">Muộn</span>; break;
+                            case "Absent": <span class="badge bg-danger">Vắng</span>; break;
+                            default: <span class="badge bg-secondary">Không rõ</span>; break;
+                        }
+                    </td>
+                    <td>@(a.PTSlot?.StartTime.ToString(@"hh\:mm") ?? "-")</td>
+                    <td>@(a.PTSlot?.EndTime.ToString(@"hh\:mm") ?? "-")</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr><td colspan="5" class="text-muted">Chưa có lịch sử PT.</td></tr>
+        }
+    </tbody>
+</table>
+
+<!-- ====================== PHẦN 2: ATTENDANCE GROUP CLASS ====================== -->
+<h3 class="mt-4 text-primary">LỚP HỌC NHÓM</h3>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Ngày</th>
+            <th>Lớp</th>
+            <th>Trạng thái</th>
+            <th>Bắt đầu</th>
+            <th>Kết thúc</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var groupList = Model
+                .Where(a => a.Booking != null
+                    && a.Booking.ClassId != null
+                    && a.Booking.GymClass != null
+                    && a.Booking.MemberId == memberId) // Chỉ lịch của member
+                .OrderByDescending(a => a.AttendanceTime)
+                .ToList();
+        }
+
+        @if (groupList.Any())
+        {
+            foreach (var a in groupList)
+            {
+                <tr>
+                    <td>@a.AttendanceTime.ToString("dd/MM/yyyy")</td>
+                    <td>@a.Booking.GymClass.Name</td>
+                    <td>
+                        @switch (a.Status)
+                        {
+                            case "Present":<span class="badge bg-success">Có mặt</span>; break;
+                            case "Late": <span class="badge bg-warning text-dark">Muộn</span>; break;
+                            case "Absent": <span class="badge bg-danger">Vắng</span>; break;
+                            default: <span class="badge bg-secondary">Không rõ</span>; break;
+                        }
+                    </td>
+                    <td>@(a.Booking.GymClass.TimeFrom?.ToString(@"hh\:mm") ?? "-")</td>
+                    <td>@(a.Booking.GymClass.TimeTo?.ToString(@"hh\:mm") ?? "-")</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr><td colspan="5" class="text-muted">Chưa có lịch sử lớp học nhóm.</td></tr>
+        }
+    </tbody>
+</table>

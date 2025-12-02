@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ed382e221717493fa07e8b38cbf576fa" Name="Diagram1" ZoomLevel="72">
+        <EntityTypeShape EntityType="GymBookingSystem.Booking" Width="1.5" PointX="22.375" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymBookingSystem.MemberPackage" Width="1.5" PointX="27" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymBookingSystem.Notification" Width="1.5" PointX="31" PointY="20" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymBookingSystem.Package" Width="1.5" PointX="29.25" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymBookingSystem.RatingHistory" Width="1.5" PointX="28.375" PointY="21.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymBookingSystem.Session" Width="1.5" PointX="17.875" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymBookingSystem.TrainerRating" Width="1.5" PointX="25.75" PointY="21.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymBookingSystem.Users" Width="1.5" PointX="24.75" PointY="16.625" IsExpanded="true" />
+        <AssociationConnector Association="GymBookingSystem.FK__Booking__MemberI__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="GymBookingSystem.FK__MemberPac__Membe__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="GymBookingSystem.FK__MemberPac__Packa__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="GymBookingSystem.FK__Notificat__UserI__787EE5A0" ManuallyRouted="false" />
+        <AssociationConnector Association="GymBookingSystem.FK__RatingHis__Ratin__74AE54BC" ManuallyRouted="false" />
+        <AssociationConnector Association="GymBookingSystem.FK__TrainerRa__Membe__6FE99F9F" ManuallyRouted="false" />
+        <AssociationConnector Association="GymBookingSystem.FK__TrainerRa__Train__6EF57B66" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="GymBookingSystem.MemberProfile" Width="1.5" PointX="23.75" PointY="22.125" />
+        <AssociationConnector Association="GymBookingSystem.FK__MemberPro__Membe__02FC7413" />
+        <EntityTypeShape EntityType="GymBookingSystem.TrainerProfile" Width="1.5" PointX="27.25" PointY="14" />
+        <AssociationConnector Association="GymBookingSystem.FK__TrainerPr__Train__3E52440B" />
+        <EntityTypeShape EntityType="GymBookingSystem.GymClass" Width="1.5" PointX="20.375" PointY="14.625" />
+        <AssociationConnector Association="GymBookingSystem.FK__Booking__ClassId__6383C8BA" />
+        <AssociationConnector Association="GymBookingSystem.FK__GymClass__Traine__5070F446" />
+        <AssociationConnector Association="GymBookingSystem.FK__Session__ClassId__5629CD9C" />
+        <EntityTypeShape EntityType="GymBookingSystem.Attendance" Width="1.5" PointX="18" PointY="17.5" IsExpanded="true" />
+        <AssociationConnector Association="GymBookingSystem.FK__Attendanc__Booki__6A30C649" />
+        <EntityTypeShape EntityType="GymBookingSystem.Specialty" Width="1.5" PointX="30.5" PointY="14.875" />
+        <AssociationConnector Association="GymBookingSystem.TrainerSpecialty" />
+        <EntityTypeShape EntityType="GymBookingSystem.WeeklyPTSchedule" Width="1.5" PointX="23.25" PointY="13.125" />
+        <AssociationConnector Association="GymBookingSystem.FK__WeeklyPTS__Train__46B27FE2" />
+        <EntityTypeShape EntityType="GymBookingSystem.PTSlot" Width="1.5" PointX="15.5" PointY="17.375" />
+        <AssociationConnector Association="GymBookingSystem.FK_Attendance_SlotId" />
+        <AssociationConnector Association="GymBookingSystem.FK_Booking_SlotId" />
+        <AssociationConnector Association="GymBookingSystem.FK__PTSlot__MemberId__4E53A1AA" />
+        <AssociationConnector Association="GymBookingSystem.FK__PTSlot__TrainerI__4C6B5938" />
+        <AssociationConnector Association="GymBookingSystem.FK_WeeklyPTSchedule_PTSlot" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

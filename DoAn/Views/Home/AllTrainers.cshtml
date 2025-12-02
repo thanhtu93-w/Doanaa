@@ -1,0 +1,26 @@
+﻿@model List<DoAn.Models.ViewModels.TrainerVM>
+
+@{
+    ViewBag.Title = "Tất cả Trainer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mb-4">Tất cả Trainer</h2>
+<div class="row">
+    @foreach (var t in Model)
+    {
+        <div class="col-md-3 mb-4 text-center">
+            <div class="card shadow-sm h-100 p-3">
+                <img src="@t.Avatar"
+                     class="rounded-circle mx-auto d-block mb-3"
+                     style="width:150px; height:150px; object-fit:cover;" />
+                <div class="card-body d-flex flex-column">
+                    <h5>@t.Username</h5>
+                    <p class="text-truncate">@t.Description</p>
+                    <p class="mb-1">Số lớp: @t.ClassCount</p>
+                    <a href="@Url.Action("TrainerDetails", "Home", new { trainerId = t.UserId })" class="btn btn-outline-primary btn-sm mt-auto">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

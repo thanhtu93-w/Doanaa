@@ -1,0 +1,92 @@
+﻿@model DoAn.Models.ViewModels.ScheduleSlotVM
+@{
+    ViewBag.Title = "Lên lịch cho khung giờ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lên lịch cho khung giờ (@Model.StartTime.ToString(@"hh\:mm") - @Model.EndTime.ToString(@"hh\:mm"))</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (Model.ExistingSchedules.Count < 4)
+{
+    using (Html.BeginForm("ScheduleSlot", "Trainer", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.SlotId)
+        <button type="submit" class="btn btn-primary mb-3">Sinh 4 buổi ngẫu nhiên trong tuần</button>
+    }
+}
+
+<h3>Danh sách buổi hiện có</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Ngày trong tuần</th>
+            <th>Bắt đầu</th>
+            <th>Kết thúc</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+            <th>Điểm Danh</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model.ExistingSchedules)
+        {
+            <tr>
+                @using (Html.BeginForm("EditSchedule", "Trainer", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("scheduleId", s.ScheduleId)
+
+                    <td>
+                        @Html.DropDownList(
+                            "WeekDay_" + s.ScheduleId,
+                            new List<SelectListItem> {
+                                new SelectListItem { Text = "Thứ 2", Value = "2", Selected = s.WeekDay == 2 },
+                                new SelectListItem { Text = "Thứ 3", Value = "3", Selected = s.WeekDay == 3 },
+                                new SelectListItem { Text = "Thứ 4", Value = "4", Selected = s.WeekDay == 4 },
+                                new SelectListItem { Text = "Thứ 5", Value = "5", Selected = s.WeekDay == 5 },
+                                new SelectListItem { Text = "Thứ 6", Value = "6", Selected = s.WeekDay == 6 },
+                                new SelectListItem { Text = "Thứ 7", Value = "7", Selected = s.WeekDay == 7 },
+                                new SelectListItem { Text = "Chủ nhật", Value = "8", Selected = s.WeekDay == 8 },
+                            }, new { @class = "form-select form-select-sm" })
+                    </td>
+
+                    <td>@s.StartTime</td>
+                    <td>@s.EndTime</td>
+                    <td>@(s.IsActive == true ? "Active" : "Inactive")</td>
+
+                    <td>
+                        <button type="submit" class="btn btn-warning btn-sm">Sửa</button>
+
+                    
+                    </td>
+
+
+
+                }
+                <td>
+                  
+               
+                    @using (Html.BeginForm("CheckInPT", "Trainer", FormMethod.Post, new { @style = "display:inline;" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("slotId", s.SlotId)
+                        <button type="submit" class="btn btn-success btn-sm">Điểm danh</button>
+                    }
+                </td>
+
+
+            </tr>
+
+        }
+    </tbody>
+</table>

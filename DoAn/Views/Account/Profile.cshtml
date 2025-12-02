@@ -1,0 +1,130 @@
+﻿@model DoAn.Models.MemberProfileViewModel
+
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2 class="text-center mb-4">Thông tin cá nhân</h2>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+
+            <!-- Avatar -->
+            <img src="@(Model.Avatar ?? Url.Content("~/Content/Images/default-avatar.png"))"
+                 class="img-thumbnail mb-3" style="width:200px; height:200px; object-fit:cover; border-radius:50%;" />
+
+            <!-- Hiển thị thông tin read-only -->
+            <div id="profileView">
+                <p><strong>Username:</strong> @Model.Username</p>
+                <p><strong>Email:</strong> @Model.Email</p>
+                <p><strong>Số điện thoại:</strong> @Model.PhoneNumber</p>
+                <p><strong>Full Name:</strong> @Model.FullName</p>
+                <p><strong>Gender:</strong> @Model.Gender</p>
+                <p><strong>Birth Date:</strong> @(Model.BirthDate?.ToString("yyyy-MM-dd"))</p>
+                <p><strong>Address:</strong> @Model.Address</p>
+                <p><strong>Height:</strong> @(Model.Height.HasValue ? Model.Height.Value.ToString("0.##") + " cm" : "Chưa cập nhật")</p>
+                <p><strong>Weight:</strong> @(Model.Weight.HasValue ? Model.Weight.Value.ToString("0.##") + " kg" : "Chưa cập nhật")</p>
+
+
+                <button id="btnEditProfile" class="btn btn-primary mt-3">Cập nhật</button>
+            </div>
+
+            <!-- Form chỉnh sửa ẩn ban đầu -->
+            <div id="profileForm" style="display:none; text-align:left; margin-top:20px;">
+                @using (Html.BeginForm("Profile", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.UserId)
+
+                    <div class="form-group">
+                        <label>Đổi ảnh đại diện</label>
+                        <input type="file" name="AvatarFile" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FullName)
+                        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Gender)
+                        @Html.DropDownListFor(m => m.Gender,
+                            new SelectList(new[] { "Male", "Female", "Other" }, Model.Gender),
+                            "Chọn giới tính",
+                            new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.BirthDate)
+                        @Html.TextBoxFor(m => m.BirthDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Address)
+                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Height)
+                        @Html.TextBoxFor(m => m.Height,
+                           new { @class = "form-control", type = "number", step = "0.01", value = Model.Height.HasValue ? Model.Height.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Weight)
+                        @Html.TextBoxFor(m => m.Weight,
+                            new { @class = "form-control", type = "number", step = "0.01", value = Model.Weight.HasValue ? Model.Weight.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "" })
+                    </div>
+
+                    @Html.HiddenFor(m => m.Email)
+                    @Html.HiddenFor(m => m.PhoneNumber)
+
+                    <button type="submit" class="btn btn-success mt-2">Lưu thay đổi</button>
+                    <button type="button" id="btnCancelEdit" class="btn btn-secondary mt-2">Hủy</button>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            console.log("Profile script loaded");
+
+            $("#btnEditProfile").click(function () {
+                console.log("Edit clicked");
+                $("#profileView").hide();
+                $("#profileForm").slideDown();
+            });
+
+            $("#btnCancelEdit").click(function () {
+                console.log("Cancel clicked");
+                $("#profileForm").slideUp();
+                $("#profileView").slideDown();
+            });
+            $('#profileForm form').on('submit', function () {
+                var h = $('input[name="Height"]').val().replace(',', '.');
+                var w = $('input[name="Weight"]').val().replace(',', '.');
+                $('input[name="Height"]').val(h);
+                $('input[name="Weight"]').val(w);
+            });
+
+        });
+    </script>
+}
+
+

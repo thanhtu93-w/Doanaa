@@ -1,0 +1,70 @@
+﻿@model List<DoAn.Models.TrainerProfileViewModel>
+
+@{
+    ViewBag.Title = "Quản lý Trainer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+
+    <h2>Danh sách Trainer</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Avatar</th>
+                <th>Full Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Chuyên môn</th>
+                <th>Kinh nghiệm</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var t in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="@(t.Avatar ?? Url.Content("~/Content/default-avatar.png"))"
+                             width="50" height="50" class="rounded-circle" />
+                    </td>
+
+                    <td>@t.FullName</td>
+                    <td>@t.Username</td>
+                    <td>@t.Email</td>
+                    <td>@t.PhoneNumber</td>
+
+                    <td>@t.Specialties</td>
+                    <td>@t.ExperienceYears năm</td>
+
+                    <td>
+                        <a href="@Url.Action("EditTrainer", "Admin", new { trainerId = t.UserId })"
+                           class="btn btn-sm btn-primary">
+                            Sửa
+                        </a>
+
+                        @using (Html.BeginForm("DeleteTrainer", "Admin", FormMethod.Post, new { @class = "d-inline" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("trainerId", t.UserId)
+
+                            <button type="submit"
+                                    class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Bạn có chắc muốn vô hiệu Trainer này?');">
+                                Vô hiệu
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

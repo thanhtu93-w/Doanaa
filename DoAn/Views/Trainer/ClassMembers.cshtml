@@ -1,0 +1,39 @@
+﻿@model List<DoAn.Models.MemberProfileViewModel>
+
+@{
+    ViewBag.Title = "Member lớp " + ViewBag.ClassName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Members - @ViewBag.ClassName</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Avatar</th>
+            <th>Full Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Chiều cao</th>
+            <th>Cân nặng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@(m.Avatar ?? Url.Content("~/Content/default-avatar.png"))"
+                         width="50" height="50" class="rounded-circle" />
+                </td>
+                <td>@m.FullName</td>
+                <td>@m.Username</td>
+                <td>@m.Email</td>
+                <td>@m.PhoneNumber</td>
+                <td>@m.Height</td>
+                <td>@m.Weight</td>
+            </tr>
+        }
+    </tbody>
+</table>

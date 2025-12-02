@@ -1,0 +1,87 @@
+﻿@model List<DoAn.GymClass>
+
+@{
+    ViewBag.Title = "Quản lý Lớp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Danh sách lớp</h2>
+    <a href="@Url.Action("CreateClass","Admin")" class="btn btn-success mb-3">Tạo lớp mới</a>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Tên lớp</th>
+                <th>Trainer</th>
+                <th>Loại</th>
+                <th>Bắt đầu</th>
+                <th>Kết thúc</th>
+                <th>Thời lượng</th>
+                <th>Sức chứa</th>
+                <th>Nổi bật</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model)
+            {
+                <tr>
+                    <td>@c.ClassId</td>
+                    <td>@c.Name</td>
+                    <td>@c.Users.Username</td>
+                    <td>@c.ClassType</td>
+                    <td>@(c.TimeFrom.HasValue ? c.TimeFrom.Value.ToString(@"hh\:mm") : "-")</td>
+                    <td>@(c.TimeTo.HasValue ? c.TimeTo.Value.ToString(@"hh\:mm") : "-")</td>
+                    <td>@c.DurationMinutes phút</td>
+                    <td>@c.Capacity</td>
+                    <td>@(c.IsFeatured == true ? "Có" : "Không")</td>
+                    <td>@(c.IsActive == true ? "Hoạt động" : "Vô hiệu")</td>
+
+                    <td>
+                        <!-- NÚT SỬA -->
+                        <a href="@Url.Action("EditClass","Admin", new { classId = c.ClassId })"
+                           class="btn btn-sm btn-primary">
+                            Sửa
+                        </a>
+
+                        <!-- NÚT VÔ HIỆU (CHỈ KHI lớp đang hoạt động) -->
+                        @if (c.IsActive == true)
+                        {
+                            using (Html.BeginForm("DeleteClass", "Admin", FormMethod.Post, new { @class = "d-inline" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("classId", c.ClassId)
+                                <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Bạn có chắc muốn vô hiệu lớp này?');">
+                                    Vô hiệu
+                                </button>
+                            }
+                        }
+
+                        <!-- NÚT MỞ LỚP (CHỈ KHI lớp đang vô hiệu) -->
+                        @if (c.IsActive == false)
+                        {
+                            using (Html.BeginForm("OpenClass", "Admin", FormMethod.Post, new { @class = "d-inline" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("classId", c.ClassId)
+                                <button type="submit" class="btn btn-sm btn-success"
+                                        onclick="return confirm('Bạn có muốn mở lại lớp này?');">
+                                    Mở lớp
+                                </button>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

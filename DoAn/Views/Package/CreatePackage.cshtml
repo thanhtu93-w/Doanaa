@@ -1,0 +1,34 @@
+﻿@model DoAn.Package
+@{
+    ViewBag.Title = "Tạo gói tập mới";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Tạo gói tập</h2>
+
+@using (Html.BeginForm("CreatePackage", "Package", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.PackageType)
+        @Html.DropDownListFor(m => m.PackageType, new SelectList(new[] { "Group", "PT" }), "Chọn loại", new { @class = "form-control" })
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.TotalSessions)
+        @Html.TextBoxFor(m => m.TotalSessions, new { @class = "form-control", type = "number", min = "0" })
+    </div>
+
+    <div class="form-check mb-3">
+        @Html.CheckBoxFor(m => m.IsFeatured == true, new { @class = "form-check-input" })
+        @Html.LabelFor(m => m.IsFeatured, new { @class = "form-check-label" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Tạo</button>
+}

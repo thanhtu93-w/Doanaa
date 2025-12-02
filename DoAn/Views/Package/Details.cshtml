@@ -1,0 +1,25 @@
+﻿@model DoAn.Models.PackageViewModel
+@{
+    ViewBag.Title = "Chi tiết gói";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Package.Name</h2>
+<p><strong>Loại gói:</strong> @Model.Package.PackageType</p>
+<p><strong>Tổng số buổi:</strong> @Model.Package.TotalSessions</p>
+<p><strong>Nổi bật:</strong> @(Model.Package.IsFeatured == true ? "Có" : "Không")</p>
+
+@if (Model.MemberPackage != null)
+{
+    <hr />
+    <h4>Gói bạn đang sở hữu</h4>
+    <p><strong>Số buổi còn lại:</strong> @Model.MemberPackage.SessionsRemaining</p>
+}
+else
+{
+    <form asp-action="Subscribe" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="packageId" value="@Model.Package.PackageId" />
+        <button type="submit" class="btn btn-primary">Đăng ký gói này</button>
+    </form>
+}

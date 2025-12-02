@@ -1,0 +1,31 @@
+﻿@model DoAn.Users
+@{
+    ViewBag.Title = "Sửa Member";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Sửa Member</h2>
+
+    @using (Html.BeginForm("EditMember", "Admin", FormMethod.Post, new { @class = "needs-validation" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.UserId)
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+        <div class="mb-3">
+            @Html.LabelFor(m => m.PhoneNumber)
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+        </div>
+        <div class="form-check mb-3">
+            @Html.CheckBoxFor(m => m.IsActive == true , new { @class = "form-check-input" })
+            @Html.LabelFor(m => m.IsActive, new { @class = "form-check-label" })
+        </div>
+
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+        <a href="@Url.Action("Members","Admin")" class="btn btn-secondary">Hủy</a>
+    }
+</div>

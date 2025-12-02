@@ -1,0 +1,17 @@
+﻿@model DoAn.Models.BookClassViewModel
+@{
+    ViewBag.Title = "Đặt lớp";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<h2>Đặt lớp: @Model.ClassName</h2>
+<p>Trainer: @Model.TrainerName</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <input type="hidden" name="ClassId" value="@Model.ClassId" />
+        <button type="submit" class="btn btn-success">Xác nhận đặt lớp</button>
+        <a href="@Url.Action("ViewClasses", "Member")" class="btn btn-secondary">Quay lại</a>
+    </div>
+}

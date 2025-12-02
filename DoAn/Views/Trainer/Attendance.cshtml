@@ -1,0 +1,44 @@
+﻿@model DoAn.Models.AttendanceViewModel
+
+<h2>Điểm danh lớp: @Model.GymClass.Name</h2>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Buổi trong tuần</th>
+            <th>Thứ</th>
+            <th>Điểm danh</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int buoiIndex = 1;
+            foreach (var day in Model.RecurrenceDays)
+            {
+                string thu;
+                switch (day)
+                {
+                    case 1: thu = "Thứ 2"; break;
+                    case 2: thu = "Thứ 3"; break;
+                    case 3: thu = "Thứ 4"; break;
+                    case 4: thu = "Thứ 5"; break;
+                    case 5: thu = "Thứ 6"; break;
+                    case 6: thu = "Thứ 7"; break;
+                    case 7: thu = "Chủ Nhật"; break;
+                    default: thu = ""; break;
+                }
+
+                <tr>
+                    <td>Buổi @buoiIndex</td>
+                    <td>@thu</td>
+                    <td>
+                        <a class="btn btn-sm btn-primary" href="@Url.Action("AttendanceClassDetail", "Trainer", new { classId = Model.GymClass.ClassId, classDate = DateTime.Today.AddDays((day - (int)DateTime.Today.DayOfWeek + 7) % 7) })">
+                            Điểm danh lớp
+                        </a>
+                    </td>
+                </tr>
+                buoiIndex++;
+            }
+        }
+    </tbody>
+</table>

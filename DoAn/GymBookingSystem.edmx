@@ -1,0 +1,1329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GymBookingSystem.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="AttendanceId" />
+          </Key>
+          <Property Name="AttendanceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookingId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="SlotId" Type="int" />
+          <Property Name="AttendanceTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="BookingId" />
+          </Key>
+          <Property Name="BookingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="ClassId" Type="int" />
+          <Property Name="SlotId" Type="int" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" />
+          <Property Name="BookingTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="GymClass">
+          <Key>
+            <PropertyRef Name="ClassId" />
+          </Key>
+          <Property Name="ClassId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ClassType" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="TrainerId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="DurationMinutes" Type="int" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="IsFeatured" Type="bit" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="RecurrenceDays" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="TimeFrom" Type="time" Precision="7" />
+          <Property Name="TimeTo" Type="time" Precision="7" />
+        </EntityType>
+        <EntityType Name="MemberPackage">
+          <Key>
+            <PropertyRef Name="MemberPackageId" />
+          </Key>
+          <Property Name="MemberPackageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="PackageId" Type="int" Nullable="false" />
+          <Property Name="SessionsRemaining" Type="int" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MemberProfile">
+          <Key>
+            <PropertyRef Name="MemberId" />
+          </Key>
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="Avatar" Type="nvarchar" MaxLength="255" />
+          <Property Name="Height" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Weight" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="NotificationId" />
+          </Key>
+          <Property Name="NotificationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Message" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="IsRead" Type="bit" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Package">
+          <Key>
+            <PropertyRef Name="PackageId" />
+          </Key>
+          <Property Name="PackageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PackageType" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="TotalSessions" Type="int" Nullable="false" />
+          <Property Name="IsFeatured" Type="bit" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="PTSlot">
+          <Key>
+            <PropertyRef Name="SlotId" />
+          </Key>
+          <Property Name="SlotId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrainerId" Type="int" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="MemberId" Type="int" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="TotalSessions" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RatingHistory">
+          <Key>
+            <PropertyRef Name="HistoryId" />
+          </Key>
+          <Property Name="HistoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RatingId" Type="int" Nullable="false" />
+          <Property Name="PreviousRating" Type="int" />
+          <Property Name="PreviousComment" Type="nvarchar" MaxLength="500" />
+          <Property Name="UpdatedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Session">
+          <Key>
+            <PropertyRef Name="SessionId" />
+          </Key>
+          <Property Name="SessionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassId" Type="int" Nullable="false" />
+          <Property Name="SessionDate" Type="date" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Specialty">
+          <Key>
+            <PropertyRef Name="SpecialtyId" />
+          </Key>
+          <Property Name="SpecialtyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TrainerProfile">
+          <Key>
+            <PropertyRef Name="TrainerId" />
+          </Key>
+          <Property Name="TrainerId" Type="int" Nullable="false" />
+          <Property Name="Avatar" Type="nvarchar" MaxLength="255" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="ExperienceYears" Type="int" />
+          <Property Name="Specialties" Type="nvarchar" MaxLength="255" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="IsAvailableForPT" Type="bit" />
+        </EntityType>
+        <EntityType Name="TrainerRating">
+          <Key>
+            <PropertyRef Name="RatingId" />
+          </Key>
+          <Property Name="RatingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrainerId" Type="int" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="Rating" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TrainerSpecialty">
+          <Key>
+            <PropertyRef Name="TrainerId" />
+            <PropertyRef Name="SpecialtyId" />
+          </Key>
+          <Property Name="TrainerId" Type="int" Nullable="false" />
+          <Property Name="SpecialtyId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="Role" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="WeeklyPTSchedule">
+          <Key>
+            <PropertyRef Name="ScheduleId" />
+          </Key>
+          <Property Name="ScheduleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrainerId" Type="int" Nullable="false" />
+          <Property Name="WeekDay" Type="int" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="SlotId" Type="int" />
+        </EntityType>
+        <Association Name="FK__Attendanc__Booki__6A30C649">
+          <End Role="Booking" Type="Self.Booking" Multiplicity="1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="BookingId" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="BookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Booking__ClassId__6383C8BA">
+          <End Role="GymClass" Type="Self.GymClass" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GymClass">
+              <PropertyRef Name="ClassId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Booking__MemberI__628FA481">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GymClass__Traine__5070F446">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="GymClass" Type="Self.GymClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="GymClass">
+              <PropertyRef Name="TrainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MemberPac__Membe__45F365D3">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="MemberPackage" Type="Self.MemberPackage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="MemberPackage">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MemberPac__Packa__46E78A0C">
+          <End Role="Package" Type="Self.Package" Multiplicity="1" />
+          <End Role="MemberPackage" Type="Self.MemberPackage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Package">
+              <PropertyRef Name="PackageId" />
+            </Principal>
+            <Dependent Role="MemberPackage">
+              <PropertyRef Name="PackageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MemberPro__Membe__02FC7413">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="MemberProfile" Type="Self.MemberProfile" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="MemberProfile">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Notificat__UserI__787EE5A0">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PTSlot__MemberId__4E53A1AA">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="PTSlot" Type="Self.PTSlot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PTSlot">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PTSlot__TrainerI__4C6B5938">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="PTSlot" Type="Self.PTSlot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PTSlot">
+              <PropertyRef Name="TrainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RatingHis__Ratin__74AE54BC">
+          <End Role="TrainerRating" Type="Self.TrainerRating" Multiplicity="1" />
+          <End Role="RatingHistory" Type="Self.RatingHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrainerRating">
+              <PropertyRef Name="RatingId" />
+            </Principal>
+            <Dependent Role="RatingHistory">
+              <PropertyRef Name="RatingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Session__ClassId__5629CD9C">
+          <End Role="GymClass" Type="Self.GymClass" Multiplicity="1" />
+          <End Role="Session" Type="Self.Session" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GymClass">
+              <PropertyRef Name="ClassId" />
+            </Principal>
+            <Dependent Role="Session">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainerPr__Train__3E52440B">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TrainerProfile" Type="Self.TrainerProfile" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TrainerProfile">
+              <PropertyRef Name="TrainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainerRa__Membe__6FE99F9F">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TrainerRating" Type="Self.TrainerRating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TrainerRating">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainerRa__Train__6EF57B66">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TrainerRating" Type="Self.TrainerRating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TrainerRating">
+              <PropertyRef Name="TrainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainerSp__Speci__40058253">
+          <End Role="Specialty" Type="Self.Specialty" Multiplicity="1" />
+          <End Role="TrainerSpecialty" Type="Self.TrainerSpecialty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialty">
+              <PropertyRef Name="SpecialtyId" />
+            </Principal>
+            <Dependent Role="TrainerSpecialty">
+              <PropertyRef Name="SpecialtyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainerSp__Train__3F115E1A">
+          <End Role="TrainerProfile" Type="Self.TrainerProfile" Multiplicity="1" />
+          <End Role="TrainerSpecialty" Type="Self.TrainerSpecialty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrainerProfile">
+              <PropertyRef Name="TrainerId" />
+            </Principal>
+            <Dependent Role="TrainerSpecialty">
+              <PropertyRef Name="TrainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__WeeklyPTS__Train__46B27FE2">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="WeeklyPTSchedule" Type="Self.WeeklyPTSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="WeeklyPTSchedule">
+              <PropertyRef Name="TrainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Attendance_SlotId">
+          <End Role="PTSlot" Type="Self.PTSlot" Multiplicity="0..1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PTSlot">
+              <PropertyRef Name="SlotId" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="SlotId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_SlotId">
+          <End Role="PTSlot" Type="Self.PTSlot" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PTSlot">
+              <PropertyRef Name="SlotId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="SlotId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WeeklyPTSchedule_PTSlot">
+          <End Role="PTSlot" Type="Self.PTSlot" Multiplicity="0..1" />
+          <End Role="WeeklyPTSchedule" Type="Self.WeeklyPTSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PTSlot">
+              <PropertyRef Name="SlotId" />
+            </Principal>
+            <Dependent Role="WeeklyPTSchedule">
+              <PropertyRef Name="SlotId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GymBookingSystemStoreContainer">
+          <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GymClass" EntityType="Self.GymClass" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MemberPackage" EntityType="Self.MemberPackage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MemberProfile" EntityType="Self.MemberProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Package" EntityType="Self.Package" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PTSlot" EntityType="Self.PTSlot" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RatingHistory" EntityType="Self.RatingHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Session" EntityType="Self.Session" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Specialty" EntityType="Self.Specialty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrainerProfile" EntityType="Self.TrainerProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrainerRating" EntityType="Self.TrainerRating" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrainerSpecialty" EntityType="Self.TrainerSpecialty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WeeklyPTSchedule" EntityType="Self.WeeklyPTSchedule" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Attendanc__Booki__6A30C649" Association="Self.FK__Attendanc__Booki__6A30C649">
+            <End Role="Booking" EntitySet="Booking" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Booking__ClassId__6383C8BA" Association="Self.FK__Booking__ClassId__6383C8BA">
+            <End Role="GymClass" EntitySet="GymClass" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Booking__MemberI__628FA481" Association="Self.FK__Booking__MemberI__628FA481">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GymClass__Traine__5070F446" Association="Self.FK__GymClass__Traine__5070F446">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="GymClass" EntitySet="GymClass" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MemberPac__Membe__45F365D3" Association="Self.FK__MemberPac__Membe__45F365D3">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MemberPackage" EntitySet="MemberPackage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MemberPac__Packa__46E78A0C" Association="Self.FK__MemberPac__Packa__46E78A0C">
+            <End Role="Package" EntitySet="Package" />
+            <End Role="MemberPackage" EntitySet="MemberPackage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MemberPro__Membe__02FC7413" Association="Self.FK__MemberPro__Membe__02FC7413">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MemberProfile" EntitySet="MemberProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Notificat__UserI__787EE5A0" Association="Self.FK__Notificat__UserI__787EE5A0">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PTSlot__MemberId__4E53A1AA" Association="Self.FK__PTSlot__MemberId__4E53A1AA">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PTSlot" EntitySet="PTSlot" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PTSlot__TrainerI__4C6B5938" Association="Self.FK__PTSlot__TrainerI__4C6B5938">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PTSlot" EntitySet="PTSlot" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RatingHis__Ratin__74AE54BC" Association="Self.FK__RatingHis__Ratin__74AE54BC">
+            <End Role="TrainerRating" EntitySet="TrainerRating" />
+            <End Role="RatingHistory" EntitySet="RatingHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Session__ClassId__5629CD9C" Association="Self.FK__Session__ClassId__5629CD9C">
+            <End Role="GymClass" EntitySet="GymClass" />
+            <End Role="Session" EntitySet="Session" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainerPr__Train__3E52440B" Association="Self.FK__TrainerPr__Train__3E52440B">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TrainerProfile" EntitySet="TrainerProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainerRa__Membe__6FE99F9F" Association="Self.FK__TrainerRa__Membe__6FE99F9F">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TrainerRating" EntitySet="TrainerRating" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainerRa__Train__6EF57B66" Association="Self.FK__TrainerRa__Train__6EF57B66">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TrainerRating" EntitySet="TrainerRating" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainerSp__Speci__40058253" Association="Self.FK__TrainerSp__Speci__40058253">
+            <End Role="Specialty" EntitySet="Specialty" />
+            <End Role="TrainerSpecialty" EntitySet="TrainerSpecialty" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainerSp__Train__3F115E1A" Association="Self.FK__TrainerSp__Train__3F115E1A">
+            <End Role="TrainerProfile" EntitySet="TrainerProfile" />
+            <End Role="TrainerSpecialty" EntitySet="TrainerSpecialty" />
+          </AssociationSet>
+          <AssociationSet Name="FK__WeeklyPTS__Train__46B27FE2" Association="Self.FK__WeeklyPTS__Train__46B27FE2">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="WeeklyPTSchedule" EntitySet="WeeklyPTSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Attendance_SlotId" Association="Self.FK_Attendance_SlotId">
+            <End Role="PTSlot" EntitySet="PTSlot" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_SlotId" Association="Self.FK_Booking_SlotId">
+            <End Role="PTSlot" EntitySet="PTSlot" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WeeklyPTSchedule_PTSlot" Association="Self.FK_WeeklyPTSchedule_PTSlot">
+            <End Role="PTSlot" EntitySet="PTSlot" />
+            <End Role="WeeklyPTSchedule" EntitySet="WeeklyPTSchedule" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GymBookingSystem" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="BookingId" />
+          </Key>
+          <Property Name="BookingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="ClassId" Type="Int32" />
+          <Property Name="SlotId" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BookingTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Booking__MemberI__628FA481" FromRole="Booking" ToRole="Users" />
+          <NavigationProperty Name="GymClass" Relationship="GymBookingSystem.FK__Booking__ClassId__6383C8BA" FromRole="Booking" ToRole="GymClass" />
+          <NavigationProperty Name="Attendance" Relationship="GymBookingSystem.FK__Attendanc__Booki__6A30C649" FromRole="Booking" ToRole="Attendance" />
+          <NavigationProperty Name="PTSlot" Relationship="GymBookingSystem.FK_Booking_SlotId" FromRole="Booking" ToRole="PTSlot" />
+        </EntityType>
+        <EntityType Name="MemberPackage">
+          <Key>
+            <PropertyRef Name="MemberPackageId" />
+          </Key>
+          <Property Name="MemberPackageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="PackageId" Type="Int32" Nullable="false" />
+          <Property Name="SessionsRemaining" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__MemberPac__Membe__45F365D3" FromRole="MemberPackage" ToRole="Users" />
+          <NavigationProperty Name="Package" Relationship="Self.FK__MemberPac__Packa__46E78A0C" FromRole="MemberPackage" ToRole="Package" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="NotificationId" />
+          </Key>
+          <Property Name="NotificationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsRead" Type="Boolean" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Notificat__UserI__787EE5A0" FromRole="Notification" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Package">
+          <Key>
+            <PropertyRef Name="PackageId" />
+          </Key>
+          <Property Name="PackageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PackageType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TotalSessions" Type="Int32" Nullable="false" />
+          <Property Name="IsFeatured" Type="Boolean" />
+          <NavigationProperty Name="MemberPackage" Relationship="Self.FK__MemberPac__Packa__46E78A0C" FromRole="Package" ToRole="MemberPackage" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="RatingHistory">
+          <Key>
+            <PropertyRef Name="HistoryId" />
+          </Key>
+          <Property Name="HistoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RatingId" Type="Int32" Nullable="false" />
+          <Property Name="PreviousRating" Type="Int32" />
+          <Property Name="PreviousComment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TrainerRating" Relationship="Self.FK__RatingHis__Ratin__74AE54BC" FromRole="RatingHistory" ToRole="TrainerRating" />
+        </EntityType>
+        <EntityType Name="Session">
+          <Key>
+            <PropertyRef Name="SessionId" />
+          </Key>
+          <Property Name="SessionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassId" Type="Int32" Nullable="false" />
+          <Property Name="SessionDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GymClass" Relationship="GymBookingSystem.FK__Session__ClassId__5629CD9C" FromRole="Session" ToRole="GymClass" />
+        </EntityType>
+        <EntityType Name="TrainerRating">
+          <Key>
+            <PropertyRef Name="RatingId" />
+          </Key>
+          <Property Name="RatingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrainerId" Type="Int32" Nullable="false" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="RatingHistory" Relationship="Self.FK__RatingHis__Ratin__74AE54BC" FromRole="TrainerRating" ToRole="RatingHistory" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__TrainerRa__Membe__6FE99F9F" FromRole="TrainerRating" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="Self.FK__TrainerRa__Train__6EF57B66" FromRole="TrainerRating" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Booking" Relationship="Self.FK__Booking__MemberI__628FA481" FromRole="Users" ToRole="Booking" />
+          <NavigationProperty Name="MemberPackage" Relationship="Self.FK__MemberPac__Membe__45F365D3" FromRole="Users" ToRole="MemberPackage" />
+          <NavigationProperty Name="Notification" Relationship="Self.FK__Notificat__UserI__787EE5A0" FromRole="Users" ToRole="Notification" />
+          <NavigationProperty Name="TrainerRating" Relationship="Self.FK__TrainerRa__Membe__6FE99F9F" FromRole="Users" ToRole="TrainerRating" />
+          <NavigationProperty Name="TrainerRating1" Relationship="Self.FK__TrainerRa__Train__6EF57B66" FromRole="Users" ToRole="TrainerRating" />
+          <NavigationProperty Name="MemberProfile" Relationship="GymBookingSystem.FK__MemberPro__Membe__02FC7413" FromRole="Users" ToRole="MemberProfile" />
+          <NavigationProperty Name="TrainerProfile" Relationship="GymBookingSystem.FK__TrainerPr__Train__3E52440B" FromRole="Users" ToRole="TrainerProfile" />
+          <NavigationProperty Name="GymClass" Relationship="GymBookingSystem.FK__GymClass__Traine__5070F446" FromRole="Users" ToRole="GymClass" />
+          <NavigationProperty Name="WeeklyPTSchedule" Relationship="GymBookingSystem.FK__WeeklyPTS__Train__46B27FE2" FromRole="Users" ToRole="WeeklyPTSchedule" />
+          <NavigationProperty Name="PTSlot" Relationship="GymBookingSystem.FK__PTSlot__MemberId__4E53A1AA" FromRole="Users" ToRole="PTSlot" />
+          <NavigationProperty Name="PTSlot1" Relationship="GymBookingSystem.FK__PTSlot__TrainerI__4C6B5938" FromRole="Users" ToRole="PTSlot" />
+        </EntityType>
+        <Association Name="FK__Booking__MemberI__628FA481">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MemberPac__Membe__45F365D3">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="MemberPackage" Type="Self.MemberPackage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="MemberPackage">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MemberPac__Packa__46E78A0C">
+          <End Role="Package" Type="Self.Package" Multiplicity="1" />
+          <End Role="MemberPackage" Type="Self.MemberPackage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Package">
+              <PropertyRef Name="PackageId" />
+            </Principal>
+            <Dependent Role="MemberPackage">
+              <PropertyRef Name="PackageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Notificat__UserI__787EE5A0">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RatingHis__Ratin__74AE54BC">
+          <End Role="TrainerRating" Type="Self.TrainerRating" Multiplicity="1" />
+          <End Role="RatingHistory" Type="Self.RatingHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrainerRating">
+              <PropertyRef Name="RatingId" />
+            </Principal>
+            <Dependent Role="RatingHistory">
+              <PropertyRef Name="RatingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainerRa__Membe__6FE99F9F">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TrainerRating" Type="Self.TrainerRating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TrainerRating">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainerRa__Train__6EF57B66">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TrainerRating" Type="Self.TrainerRating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TrainerRating">
+              <PropertyRef Name="TrainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GymCenterDBEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Booking" EntityType="Self.Booking" />
+          <EntitySet Name="MemberPackage" EntityType="Self.MemberPackage" />
+          <EntitySet Name="Notification" EntityType="Self.Notification" />
+          <EntitySet Name="Package" EntityType="Self.Package" />
+          <EntitySet Name="RatingHistory" EntityType="Self.RatingHistory" />
+          <EntitySet Name="Session" EntityType="Self.Session" />
+          <EntitySet Name="TrainerRating" EntityType="Self.TrainerRating" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK__Booking__MemberI__628FA481" Association="Self.FK__Booking__MemberI__628FA481">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MemberPac__Membe__45F365D3" Association="Self.FK__MemberPac__Membe__45F365D3">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MemberPackage" EntitySet="MemberPackage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MemberPac__Packa__46E78A0C" Association="Self.FK__MemberPac__Packa__46E78A0C">
+            <End Role="Package" EntitySet="Package" />
+            <End Role="MemberPackage" EntitySet="MemberPackage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Notificat__UserI__787EE5A0" Association="Self.FK__Notificat__UserI__787EE5A0">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RatingHis__Ratin__74AE54BC" Association="Self.FK__RatingHis__Ratin__74AE54BC">
+            <End Role="TrainerRating" EntitySet="TrainerRating" />
+            <End Role="RatingHistory" EntitySet="RatingHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainerRa__Membe__6FE99F9F" Association="Self.FK__TrainerRa__Membe__6FE99F9F">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TrainerRating" EntitySet="TrainerRating" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainerRa__Train__6EF57B66" Association="Self.FK__TrainerRa__Train__6EF57B66">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TrainerRating" EntitySet="TrainerRating" />
+          </AssociationSet>
+          <EntitySet Name="MemberProfile" EntityType="GymBookingSystem.MemberProfile" />
+          <AssociationSet Name="FK__MemberPro__Membe__02FC7413" Association="GymBookingSystem.FK__MemberPro__Membe__02FC7413">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MemberProfile" EntitySet="MemberProfile" />
+          </AssociationSet>
+          <EntitySet Name="TrainerProfile" EntityType="GymBookingSystem.TrainerProfile" />
+          <AssociationSet Name="FK__TrainerPr__Train__3E52440B" Association="GymBookingSystem.FK__TrainerPr__Train__3E52440B">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TrainerProfile" EntitySet="TrainerProfile" />
+          </AssociationSet>
+          <EntitySet Name="GymClass" EntityType="GymBookingSystem.GymClass" />
+          <AssociationSet Name="FK__Booking__ClassId__6383C8BA" Association="GymBookingSystem.FK__Booking__ClassId__6383C8BA">
+            <End Role="GymClass" EntitySet="GymClass" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GymClass__Traine__5070F446" Association="GymBookingSystem.FK__GymClass__Traine__5070F446">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="GymClass" EntitySet="GymClass" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Session__ClassId__5629CD9C" Association="GymBookingSystem.FK__Session__ClassId__5629CD9C">
+            <End Role="GymClass" EntitySet="GymClass" />
+            <End Role="Session" EntitySet="Session" />
+          </AssociationSet>
+          <EntitySet Name="Attendance" EntityType="GymBookingSystem.Attendance" />
+          <AssociationSet Name="FK__Attendanc__Booki__6A30C649" Association="GymBookingSystem.FK__Attendanc__Booki__6A30C649">
+            <End Role="Booking" EntitySet="Booking" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <EntitySet Name="Specialty" EntityType="GymBookingSystem.Specialty" />
+          <AssociationSet Name="TrainerSpecialty" Association="GymBookingSystem.TrainerSpecialty">
+            <End Role="Specialty" EntitySet="Specialty" />
+            <End Role="TrainerProfile" EntitySet="TrainerProfile" />
+          </AssociationSet>
+          <EntitySet Name="WeeklyPTSchedule" EntityType="GymBookingSystem.WeeklyPTSchedule" />
+          <AssociationSet Name="FK__WeeklyPTS__Train__46B27FE2" Association="GymBookingSystem.FK__WeeklyPTS__Train__46B27FE2">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="WeeklyPTSchedule" EntitySet="WeeklyPTSchedule" />
+          </AssociationSet>
+          <EntitySet Name="PTSlot" EntityType="GymBookingSystem.PTSlot" />
+          <AssociationSet Name="FK_Attendance_SlotId" Association="GymBookingSystem.FK_Attendance_SlotId">
+            <End Role="PTSlot" EntitySet="PTSlot" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_SlotId" Association="GymBookingSystem.FK_Booking_SlotId">
+            <End Role="PTSlot" EntitySet="PTSlot" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PTSlot__MemberId__4E53A1AA" Association="GymBookingSystem.FK__PTSlot__MemberId__4E53A1AA">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PTSlot" EntitySet="PTSlot" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PTSlot__TrainerI__4C6B5938" Association="GymBookingSystem.FK__PTSlot__TrainerI__4C6B5938">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PTSlot" EntitySet="PTSlot" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WeeklyPTSchedule_PTSlot" Association="GymBookingSystem.FK_WeeklyPTSchedule_PTSlot">
+            <End Role="PTSlot" EntitySet="PTSlot" />
+            <End Role="WeeklyPTSchedule" EntitySet="WeeklyPTSchedule" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="MemberProfile">
+          <Key>
+            <PropertyRef Name="MemberId" />
+          </Key>
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="Avatar" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Height" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Weight" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="GymBookingSystem.FK__MemberPro__Membe__02FC7413" FromRole="MemberProfile" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK__MemberPro__Membe__02FC7413">
+          <End Type="GymBookingSystem.Users" Role="Users" Multiplicity="1" />
+          <End Type="GymBookingSystem.MemberProfile" Role="MemberProfile" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="MemberProfile">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TrainerProfile">
+          <Key>
+            <PropertyRef Name="TrainerId" />
+          </Key>
+          <Property Name="TrainerId" Type="Int32" Nullable="false" />
+          <Property Name="Avatar" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ExperienceYears" Type="Int32" />
+          <Property Name="Specialties" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="GymBookingSystem.FK__TrainerPr__Train__3E52440B" FromRole="TrainerProfile" ToRole="Users" />
+          <Property Name="IsAvailableForPT" Type="Boolean" />
+          <NavigationProperty Name="Specialty" Relationship="GymBookingSystem.TrainerSpecialty" FromRole="TrainerProfile" ToRole="Specialty" />
+        </EntityType>
+        <Association Name="FK__TrainerPr__Train__3E52440B">
+          <End Type="GymBookingSystem.Users" Role="Users" Multiplicity="1" />
+          <End Type="GymBookingSystem.TrainerProfile" Role="TrainerProfile" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TrainerProfile">
+              <PropertyRef Name="TrainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GymClass">
+          <Key>
+            <PropertyRef Name="ClassId" />
+          </Key>
+          <Property Name="ClassId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ClassType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="TrainerId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DurationMinutes" Type="Int32" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="IsFeatured" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="RecurrenceDays" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="TimeFrom" Type="Time" Precision="7" />
+          <Property Name="TimeTo" Type="Time" Precision="7" />
+          <NavigationProperty Name="Booking" Relationship="GymBookingSystem.FK__Booking__ClassId__6383C8BA" FromRole="GymClass" ToRole="Booking" />
+          <NavigationProperty Name="Users" Relationship="GymBookingSystem.FK__GymClass__Traine__5070F446" FromRole="GymClass" ToRole="Users" />
+          <NavigationProperty Name="Session" Relationship="GymBookingSystem.FK__Session__ClassId__5629CD9C" FromRole="GymClass" ToRole="Session" />
+        </EntityType>
+        <Association Name="FK__Booking__ClassId__6383C8BA">
+          <End Type="GymBookingSystem.GymClass" Role="GymClass" Multiplicity="0..1" />
+          <End Type="GymBookingSystem.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GymClass">
+              <PropertyRef Name="ClassId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GymClass__Traine__5070F446">
+          <End Type="GymBookingSystem.Users" Role="Users" Multiplicity="1" />
+          <End Type="GymBookingSystem.GymClass" Role="GymClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="GymClass">
+              <PropertyRef Name="TrainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Session__ClassId__5629CD9C">
+          <End Type="GymBookingSystem.GymClass" Role="GymClass" Multiplicity="1" />
+          <End Type="GymBookingSystem.Session" Role="Session" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GymClass">
+              <PropertyRef Name="ClassId" />
+            </Principal>
+            <Dependent Role="Session">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="AttendanceId" />
+          </Key>
+          <Property Name="AttendanceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Booking" Relationship="GymBookingSystem.FK__Attendanc__Booki__6A30C649" FromRole="Attendance" ToRole="Booking" />
+          <Property Name="SlotId" Type="Int32" />
+          <NavigationProperty Name="PTSlot" Relationship="GymBookingSystem.FK_Attendance_SlotId" FromRole="Attendance" ToRole="PTSlot" />
+          <Property Name="AttendanceTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="FK__Attendanc__Booki__6A30C649">
+          <End Type="GymBookingSystem.Booking" Role="Booking" Multiplicity="1" />
+          <End Type="GymBookingSystem.Attendance" Role="Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="BookingId" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="BookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Specialty">
+          <Key>
+            <PropertyRef Name="SpecialtyId" />
+          </Key>
+          <Property Name="SpecialtyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TrainerProfile" Relationship="GymBookingSystem.TrainerSpecialty" FromRole="Specialty" ToRole="TrainerProfile" />
+        </EntityType>
+        <Association Name="TrainerSpecialty">
+          <End Type="GymBookingSystem.Specialty" Role="Specialty" Multiplicity="*" />
+          <End Type="GymBookingSystem.TrainerProfile" Role="TrainerProfile" Multiplicity="*" />
+        </Association>
+        <EntityType Name="WeeklyPTSchedule">
+          <Key>
+            <PropertyRef Name="ScheduleId" />
+          </Key>
+          <Property Name="ScheduleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrainerId" Type="Int32" Nullable="false" />
+          <Property Name="WeekDay" Type="Int32" Nullable="false" />
+          <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Users" Relationship="GymBookingSystem.FK__WeeklyPTS__Train__46B27FE2" FromRole="WeeklyPTSchedule" ToRole="Users" />
+          <Property Name="SlotId" Type="Int32" />
+          <NavigationProperty Name="PTSlot" Relationship="GymBookingSystem.FK_WeeklyPTSchedule_PTSlot" FromRole="WeeklyPTSchedule" ToRole="PTSlot" />
+        </EntityType>
+        <Association Name="FK__WeeklyPTS__Train__46B27FE2">
+          <End Type="GymBookingSystem.Users" Role="Users" Multiplicity="1" />
+          <End Type="GymBookingSystem.WeeklyPTSchedule" Role="WeeklyPTSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="WeeklyPTSchedule">
+              <PropertyRef Name="TrainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PTSlot">
+          <Key>
+            <PropertyRef Name="SlotId" />
+          </Key>
+          <Property Name="SlotId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrainerId" Type="Int32" Nullable="false" />
+          <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Attendance" Relationship="GymBookingSystem.FK_Attendance_SlotId" FromRole="PTSlot" ToRole="Attendance" />
+          <NavigationProperty Name="Booking" Relationship="GymBookingSystem.FK_Booking_SlotId" FromRole="PTSlot" ToRole="Booking" />
+          <NavigationProperty Name="Users" Relationship="GymBookingSystem.FK__PTSlot__MemberId__4E53A1AA" FromRole="PTSlot" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="GymBookingSystem.FK__PTSlot__TrainerI__4C6B5938" FromRole="PTSlot" ToRole="Users" />
+          <NavigationProperty Name="WeeklyPTSchedule" Relationship="GymBookingSystem.FK_WeeklyPTSchedule_PTSlot" FromRole="PTSlot" ToRole="WeeklyPTSchedule" />
+          <Property Name="TotalSessions" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Attendance_SlotId">
+          <End Type="GymBookingSystem.PTSlot" Role="PTSlot" Multiplicity="0..1" />
+          <End Type="GymBookingSystem.Attendance" Role="Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PTSlot">
+              <PropertyRef Name="SlotId" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="SlotId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_SlotId">
+          <End Type="GymBookingSystem.PTSlot" Role="PTSlot" Multiplicity="0..1" />
+          <End Type="GymBookingSystem.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PTSlot">
+              <PropertyRef Name="SlotId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="SlotId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PTSlot__MemberId__4E53A1AA">
+          <End Type="GymBookingSystem.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="GymBookingSystem.PTSlot" Role="PTSlot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PTSlot">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PTSlot__TrainerI__4C6B5938">
+          <End Type="GymBookingSystem.Users" Role="Users" Multiplicity="1" />
+          <End Type="GymBookingSystem.PTSlot" Role="PTSlot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PTSlot">
+              <PropertyRef Name="TrainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WeeklyPTSchedule_PTSlot">
+          <End Type="GymBookingSystem.PTSlot" Role="PTSlot" Multiplicity="0..1" />
+          <End Type="GymBookingSystem.WeeklyPTSchedule" Role="WeeklyPTSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PTSlot">
+              <PropertyRef Name="SlotId" />
+            </Principal>
+            <Dependent Role="WeeklyPTSchedule">
+              <PropertyRef Name="SlotId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GymBookingSystemStoreContainer" CdmEntityContainer="GymCenterDBEntities1">
+          <EntitySetMapping Name="Booking">
+            <EntityTypeMapping TypeName="GymBookingSystem.Booking">
+              <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="BookingId" ColumnName="BookingId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+                <ScalarProperty Name="SlotId" ColumnName="SlotId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="BookingTime" ColumnName="BookingTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MemberPackage">
+            <EntityTypeMapping TypeName="GymBookingSystem.MemberPackage">
+              <MappingFragment StoreEntitySet="MemberPackage">
+                <ScalarProperty Name="MemberPackageId" ColumnName="MemberPackageId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
+                <ScalarProperty Name="SessionsRemaining" ColumnName="SessionsRemaining" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notification">
+            <EntityTypeMapping TypeName="GymBookingSystem.Notification">
+              <MappingFragment StoreEntitySet="Notification">
+                <ScalarProperty Name="NotificationId" ColumnName="NotificationId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Package">
+            <EntityTypeMapping TypeName="GymBookingSystem.Package">
+              <MappingFragment StoreEntitySet="Package">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PackageType" ColumnName="PackageType" />
+                <ScalarProperty Name="TotalSessions" ColumnName="TotalSessions" />
+                <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RatingHistory">
+            <EntityTypeMapping TypeName="GymBookingSystem.RatingHistory">
+              <MappingFragment StoreEntitySet="RatingHistory">
+                <ScalarProperty Name="HistoryId" ColumnName="HistoryId" />
+                <ScalarProperty Name="RatingId" ColumnName="RatingId" />
+                <ScalarProperty Name="PreviousRating" ColumnName="PreviousRating" />
+                <ScalarProperty Name="PreviousComment" ColumnName="PreviousComment" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Session">
+            <EntityTypeMapping TypeName="GymBookingSystem.Session">
+              <MappingFragment StoreEntitySet="Session">
+                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+                <ScalarProperty Name="SessionDate" ColumnName="SessionDate" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrainerRating">
+            <EntityTypeMapping TypeName="GymBookingSystem.TrainerRating">
+              <MappingFragment StoreEntitySet="TrainerRating">
+                <ScalarProperty Name="RatingId" ColumnName="RatingId" />
+                <ScalarProperty Name="TrainerId" ColumnName="TrainerId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="GymBookingSystem.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MemberProfile">
+            <EntityTypeMapping TypeName="GymBookingSystem.MemberProfile">
+              <MappingFragment StoreEntitySet="MemberProfile">
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrainerProfile">
+            <EntityTypeMapping TypeName="GymBookingSystem.TrainerProfile">
+              <MappingFragment StoreEntitySet="TrainerProfile">
+                <ScalarProperty Name="IsAvailableForPT" ColumnName="IsAvailableForPT" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Specialties" ColumnName="Specialties" />
+                <ScalarProperty Name="ExperienceYears" ColumnName="ExperienceYears" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="TrainerId" ColumnName="TrainerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GymClass">
+            <EntityTypeMapping TypeName="GymBookingSystem.GymClass">
+              <MappingFragment StoreEntitySet="GymClass">
+                <ScalarProperty Name="TimeTo" ColumnName="TimeTo" />
+                <ScalarProperty Name="TimeFrom" ColumnName="TimeFrom" />
+                <ScalarProperty Name="RecurrenceDays" ColumnName="RecurrenceDays" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="DurationMinutes" ColumnName="DurationMinutes" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TrainerId" ColumnName="TrainerId" />
+                <ScalarProperty Name="ClassType" ColumnName="ClassType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attendance">
+            <EntityTypeMapping TypeName="GymBookingSystem.Attendance">
+              <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="AttendanceTime" ColumnName="AttendanceTime" />
+                <ScalarProperty Name="SlotId" ColumnName="SlotId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="BookingId" ColumnName="BookingId" />
+                <ScalarProperty Name="AttendanceId" ColumnName="AttendanceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Specialty">
+            <EntityTypeMapping TypeName="GymBookingSystem.Specialty">
+              <MappingFragment StoreEntitySet="Specialty">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SpecialtyId" ColumnName="SpecialtyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="TrainerSpecialty" TypeName="GymBookingSystem.TrainerSpecialty" StoreEntitySet="TrainerSpecialty">
+            <EndProperty Name="TrainerProfile">
+              <ScalarProperty Name="TrainerId" ColumnName="TrainerId" />
+            </EndProperty>
+            <EndProperty Name="Specialty">
+              <ScalarProperty Name="SpecialtyId" ColumnName="SpecialtyId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="WeeklyPTSchedule">
+            <EntityTypeMapping TypeName="GymBookingSystem.WeeklyPTSchedule">
+              <MappingFragment StoreEntitySet="WeeklyPTSchedule">
+                <ScalarProperty Name="SlotId" ColumnName="SlotId" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="WeekDay" ColumnName="WeekDay" />
+                <ScalarProperty Name="TrainerId" ColumnName="TrainerId" />
+                <ScalarProperty Name="ScheduleId" ColumnName="ScheduleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PTSlot">
+            <EntityTypeMapping TypeName="GymBookingSystem.PTSlot">
+              <MappingFragment StoreEntitySet="PTSlot">
+                <ScalarProperty Name="TotalSessions" ColumnName="TotalSessions" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="TrainerId" ColumnName="TrainerId" />
+                <ScalarProperty Name="SlotId" ColumnName="SlotId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

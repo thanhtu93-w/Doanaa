@@ -1,0 +1,40 @@
+﻿@model DoAn.Models.ViewModels.HomeIndexViewModel
+
+<h2>Lớp nổi bật</h2>
+<div class="row">
+    @foreach (var cls in Model.FeaturedClasses)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">@cls.Name</h5>
+                    <p class="card-text">@cls.Description</p>
+                    <p>Khung giờ: @(cls.TimeFrom?.ToString(@"hh\:mm")) - @(cls.TimeTo?.ToString(@"hh\:mm"))</p>
+                    <p>Lịch: @cls.RecurrenceDays</p>
+                    <a href="@Url.Action("ClassDetails", "Home", new { classId = cls.ClassId })" class="btn btn-primary btn-sm">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<h2>Trainer nổi bật</h2>
+<div class="row">
+    @foreach (var t in Model.FeaturedTrainers)
+    {
+        <div class="col-md-3 mb-4 text-center">
+            <div class="card shadow-sm p-3 h-100">
+                <img src="@t.Avatar"
+                     class="rounded-circle mx-auto d-block mb-3"
+                     style="width:150px; height:150px; object-fit:cover;" />
+                <div class="card-body d-flex flex-column">
+                    <h5>@t.Username</h5>
+                    <p class="text-truncate" style="max-height: 3em; overflow: hidden;">@t.Description</p>
+                    <a href="@Url.Action("TrainerDetails", "Home", new { trainerId = t.UserId })"
+                       class="btn btn-outline-primary btn-sm mt-auto">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

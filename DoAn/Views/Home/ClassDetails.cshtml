@@ -1,0 +1,60 @@
+﻿@model DoAn.Models.ViewModels.ClassDetailsViewModel
+@{
+    ViewBag.Title = "Chi tiết lớp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var trainers = ViewBag.FeaturedTrainers as List<DoAn.Users> ?? new List<DoAn.Users>();
+}
+
+<h2>@Model.Name</h2>
+
+<div class="card shadow-sm p-3 mb-4">
+    <p><strong>Mô tả:</strong> @Model.Description</p>
+    <p><strong>Số lượng:</strong> @Model.Capacity người</p>
+    <p>
+        <strong>Lịch tập:</strong> @(Model.RecurrenceDays == "2,4,6" ? "Thứ 2 Thứ 4 Thứ 6" : "Thứ 3 Thứ 5 Thứ 7") <br />
+        <strong>Khung giờ:</strong> @(Model.TimeFrom?.ToString(@"hh\:mm")) - @(Model.TimeTo?.ToString(@"hh\:mm"))
+    </p>
+    <p>
+        <strong>Ngày tạo:</strong>
+        @(Model.CreatedAt.HasValue
+            ? Model.CreatedAt.Value.ToString("dd/MM/yyyy h:mm tt", new System.Globalization.CultureInfo("vi-VN"))
+            : "Chưa cập nhật")
+    </p>
+    @if (Session["UserId"] != null)
+    {
+        <form asp-action="BookClass" method="post"
+              onsubmit="return confirm('Bạn có chắc chắn muốn đăng ký lớp này không?');">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="classId" value="@Model.ClassId" />
+            <button type="submit" class="btn btn-primary mt-2">
+                Đăng ký lớp
+            </button>
+        </form>
+    }
+    else
+    {
+        <a href="@Url.Action("Login","Account")" class="btn btn-primary mt-2">
+            Đăng ký lớp
+        </a>
+    }
+
+</div>
+
+<h4>Trainer phụ trách</h4>
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card shadow-sm text-center">
+            <img src="@(Model.TrainerAvatar ?? "/images/default-avatar.png")"
+                 class="card-img-top"
+                 style="height:180px; object-fit:cover;" />
+            <div class="card-body">
+                <h5 class="card-title">@Model.TrainerName</h5>
+                <p class="card-text">@((Model.TrainerDescription) ?? "Chưa có thông tin")</p>
+
+                <a href="@Url.Action("TrainerDetails", "Home", new { trainerId = Model.TrainerId })"
+                   class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
+            </div>
+        </div>
+    </div>
+</div>

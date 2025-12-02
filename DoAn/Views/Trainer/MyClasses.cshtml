@@ -1,0 +1,48 @@
+﻿@model List<DoAn.GymClass>
+@{
+    ViewBag.Title = "Lớp của tôi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lớp của tôi</h2>
+
+<a href="@Url.Action("CreateClass", "Trainer")" class="btn btn-success mb-3">Tạo lớp mới</a>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Tên lớp</th>
+            <th>Loại</th>
+            <th>Mô tả</th>
+            <th>Thời gian bắt đầu</th>
+            <th>Thời gian kết thúc</th>
+            <th>Thời lượng</th>
+            <th>Sức chứa</th>
+            <th>Nổi bật</th>
+            <th>Lịch tập</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.Name</td>
+                <td>@c.ClassType</td>
+                <td>@c.Description</td>
+                <td>@(c.TimeFrom?.ToString(@"hh\:mm") ?? "-")</td>
+                <td>@(c.TimeTo?.ToString(@"hh\:mm") ?? "-")</td>
+                <td>@c.DurationMinutes phút</td>
+                <td>@c.Capacity</td>
+                <td>@(c.IsFeatured==true ? "Có" : "Không")</td>
+                <td>@(c.RecurrenceDays ?? "-")</td>
+                <td>@(c.IsActive == true ? "Đang hoạt động" : "Chờ duyệt")</td>
+                <td>
+                    <a href="@Url.Action("ClassMembers", "Trainer", new { classId = c.ClassId })" class="btn btn-sm btn-info">Member</a>
+                    <a href="@Url.Action("Attendance", "Trainer", new { classId = c.ClassId })" class="btn btn-sm btn-warning">Attendance</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

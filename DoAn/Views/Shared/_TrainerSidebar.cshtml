@@ -1,0 +1,28 @@
+﻿@{
+    int trainerId = 0;
+    int unreadCount = 0;
+
+    if (Session["UserId"] != null)
+    {
+        trainerId = Convert.ToInt32(Session["UserId"]);
+        using (var db = new DoAn.GymCenterDBEntities1())
+        {
+            unreadCount = db.Notification
+                            .Count(n => n.UserId == trainerId && n.IsRead == false);
+        }
+    }
+}
+<div class="sidebar">
+    <h5 class="px-3 mb-3">Trainer Menu</h5>
+    <a href="@Url.Action("MyClasses","Trainer")">My Classes</a>
+    <a href="@Url.Action("CreatePTSlot","Trainer")">Create PT Slot</a>
+    <a href="@Url.Action("MyPTSlots","Trainer")">My PT Slots</a>
+    <a href="@Url.Action("Profile","Trainer")">Profile</a>
+    <a href="@Url.Action("Index","Notification")">
+        Notifications
+        @if (unreadCount > 0)
+        {
+            <span class="badge bg-danger">@unreadCount</span>
+        }
+    </a>
+</div>

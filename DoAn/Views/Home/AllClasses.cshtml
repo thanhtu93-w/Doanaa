@@ -1,0 +1,25 @@
+﻿@model List<DoAn.Models.ViewModels.GymClassVM>
+
+@{
+    ViewBag.Title = "Tất cả Lớp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mb-4">Tất cả lớp</h2>
+<div class="row">
+    @foreach (var cls in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">@cls.Name</h5>
+                    <p class="card-text text-truncate">@cls.Description</p>
+                    <p class="mb-1">Khung giờ: @(cls.TimeFrom?.ToString(@"hh\:mm")) - @(cls.TimeTo?.ToString(@"hh\:mm"))</p>
+                    <p class="mb-1">Lịch: @cls.RecurrenceDays</p>
+                    <p class="mb-1">Sức chứa: @cls.Capacity</p>
+                    <a href="@Url.Action("ClassDetails", "Home", new { classId = cls.ClassId })" class="btn btn-primary mt-auto btn-sm">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

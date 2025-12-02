@@ -1,0 +1,49 @@
+﻿@model List<DoAn.Package>
+@{
+    ViewBag.Title = "Quản lý gói tập";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<h2>Quản lý gói tập</h2>
+<a href="@Url.Action("CreatePackage", "Package")" class="btn btn-success mb-3">Tạo gói mới</a>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Loại</th>
+            <th>Tổng số buổi</th>
+            <th>Nổi bật</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.PackageId</td>
+                <td>@p.Name</td>
+                <td>@p.PackageType</td>
+                <td>@p.TotalSessions</td>
+                <td>@(p.IsFeatured == true ? "Có" : "Không")</td>
+                <td>
+                    <a href="@Url.Action("EditPackage", "Package", new { packageId = p.PackageId })" class="btn btn-sm btn-primary">Edit</a>
+                    <form asp-action="DeletePackage" method="post" style="display:inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="packageId" value="@p.PackageId" />
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa gói này?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}

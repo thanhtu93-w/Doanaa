@@ -1,0 +1,19 @@
+﻿@model List<Attendance>
+
+<table class="table table-sm table-bordered">
+    <thead>
+        <tr>
+            <th>Học viên</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.Booking.Users.Username</td>
+                <td>@a.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>

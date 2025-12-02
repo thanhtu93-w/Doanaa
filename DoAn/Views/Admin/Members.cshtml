@@ -1,0 +1,41 @@
+﻿@model List<DoAn.Users>
+@{
+    ViewBag.Title = "Quản lý Member";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Danh sách Member</h2>
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var m in Model)
+            {
+                <tr>
+                    <td>@m.UserId</td>
+                    <td>@m.Username</td>
+                    <td>@m.Email</td>
+                    <td>@m.PhoneNumber</td>
+                    <td>@(m.IsActive == true ? "Hoạt động" : "Vô hiệu")</td>
+                    <td>
+                        <a href="@Url.Action("EditMember","Admin", new { memberId = m.UserId })" class="btn btn-sm btn-primary">Sửa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

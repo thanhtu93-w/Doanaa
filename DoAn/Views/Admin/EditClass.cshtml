@@ -1,0 +1,87 @@
+﻿@model DoAn.GymClass
+@{
+    ViewBag.Title = "Sửa lớp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Sửa lớp</h2>
+
+    @using (Html.BeginForm("EditClass", "Admin", FormMethod.Post, new { @class = "needs-validation" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.ClassId)
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Description)
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = 3 })
+        </div>
+
+        <div class="mb-3">
+            @Html.Label("Trainer")
+            <select name="trainerId" class="form-select">
+                @foreach (var t in ViewBag.Trainers)
+                {
+                    <option value="@t.UserId" @(t.UserId == Model.TrainerId ? "selected" : "")>@t.Username</option>
+                }
+            </select>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                @Html.LabelFor(m => m.TimeFrom, "Thời gian bắt đầu")
+                @Html.TextBoxFor(m => m.TimeFrom, "{0:HH:mm}", new { @class = "form-control", type = "time" })
+            </div>
+            <div class="col">
+                @Html.LabelFor(m => m.TimeTo, "Thời gian kết thúc")
+                @Html.TextBoxFor(m => m.TimeTo, "{0:HH:mm}", new { @class = "form-control", type = "time" })
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                @Html.LabelFor(m => m.DurationMinutes)
+                @Html.TextBoxFor(m => m.DurationMinutes, new { @class = "form-control", type = "number", min = "1" })
+            </div>
+            <div class="col">
+                @Html.LabelFor(m => m.Capacity)
+                @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", type = "number", min = "1" })
+            </div>
+        </div>
+
+        <div class="mb-3">
+            @Html.Label("Thứ trong tuần")
+            <select name="RecurrenceDays" class="form-select" multiple>
+                @{
+                    var selectedDays = (Model.RecurrenceDays ?? "").Split(',');
+                    var dayNames = new Dictionary<string, string>
+                        {
+                        {"2","Thứ 2"},{"3","Thứ 3"},{"4","Thứ 4"},{"5","Thứ 5"},{"6","Thứ 6"},{"7","Thứ 7"},{"1","Chủ nhật"}
+                    };
+                }
+                @foreach (var day in dayNames)
+                {
+                    <option value="@day.Key" @(selectedDays.Contains(day.Key) ? "selected" : "")>@day.Value</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-check mb-3">
+            @Html.CheckBoxFor(m => m.IsFeatured==true, new { @class = "form-check-input" })
+            @Html.LabelFor(m => m.IsFeatured, new { @class = "form-check-label" })
+        </div>
+
+        <div class="form-check mb-3">
+            @Html.CheckBoxFor(m => m.IsActive == true, new { @class = "form-check-input" })
+            @Html.LabelFor(m => m.IsActive, new { @class = "form-check-label" })
+        </div>
+
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+        <a href="@Url.Action("Classes","Admin")" class="btn btn-secondary">Hủy</a>
+    }
+</div>

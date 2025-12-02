@@ -1,0 +1,56 @@
+﻿@model List<DoAn.Models.BookingViewModel>
+
+@{
+    ViewBag.Title = "Lịch đặt của tôi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lịch đặt của tôi</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>Tên lớp / PT</th>
+                <th>Trainer</th>
+                <th>Trạng thái</th>
+                <th>Thời gian đặt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>@(i + 1)</td>
+                    <td>@Model[i].ClassName</td>
+                    <td>@Model[i].TrainerName</td>
+                    <td>
+                        @switch (Model[i].Status)
+                        {
+                            case "Pending":
+                                <span class="badge bg-warning text-dark">Chờ xác nhận</span>;
+                                break;
+                            case "Confirmed":
+                                <span class="badge bg-success">Đã xác nhận</span>;
+                                break;
+                            case "Cancelled":
+                                <span class="badge bg-danger">Đã hủy</span>;
+                                break;
+                        }
+                    </td>
+                    <td>
+                        @(Model[i].BookingTime.HasValue
+                            ? Model[i].BookingTime.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+                            : "-")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info">Bạn chưa có booking nào.</div>
+}

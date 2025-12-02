@@ -1,0 +1,24 @@
+﻿@model DoAn.Models.RateTrainerViewModel
+@{
+    ViewBag.Title = "Đánh giá Trainer";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<h2>Đánh giá Trainer: @Model.TrainerName</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="TrainerId" value="@Model.TrainerId" />
+
+    <div class="form-group">
+        <label>Điểm (1-5)</label>
+        <input type="number" class="form-control" name="Rating" min="1" max="5" required />
+    </div>
+    <div class="form-group">
+        <label>Bình luận</label>
+        <textarea class="form-control" name="Comment" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-2">Gửi đánh giá</button>
+    <a href="@Url.Action("MyBookings", "Member")" class="btn btn-secondary mt-2">Quay lại</a>
+}

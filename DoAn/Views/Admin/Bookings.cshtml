@@ -1,0 +1,52 @@
+﻿@model List<DoAn.Booking>
+@{
+    ViewBag.Title = "Quản lý Booking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Danh sách Booking</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Member</th>
+                <th>Class</th>
+                <th>Thời gian booking</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var b in Model)
+            {
+                <tr>
+                    <td>@b.BookingId</td>
+                    <td>@(b.Users != null ? b.Users.Username : "-")</td>
+                    <td>@(b.GymClass != null ? b.GymClass.Name : (b.PTSlot != null ? "PT 1-1" : "-"))</td>
+                    <td>@(b.BookingTime?.ToLocalTime().ToString("g") ?? "-")</td>
+                    <td>@b.Status</td>
+                    <td>
+                        @using (Html.BeginForm("UpdateBookingStatus", "Admin", FormMethod.Post, new { @class = "d-inline" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("bookingId", b.BookingId)
+                            <select name="status" class="form-select form-select-sm d-inline w-auto">
+                                <option value="Pending" @(b.Status == "Pending" ? "selected" : "")>Pending</option>
+                                <option value="Confirmed" @(b.Status == "Confirmed" ? "selected" : "")>Confirmed</option>
+                                <option value="Cancelled" @(b.Status == "Cancelled" ? "selected" : "")>Cancelled</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-primary">Cập nhật</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

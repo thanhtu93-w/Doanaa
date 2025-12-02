@@ -1,0 +1,84 @@
+﻿@model DoAn.Models.TrainerProfileViewModel
+
+@{
+    ViewBag.Title = "Sửa Trainer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Sửa Trainer</h2>
+
+    @using (Html.BeginForm("EditTrainer", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.UserId)
+        @Html.HiddenFor(m => m.TrainerId)
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.Avatar, "Avatar")
+            <input type="file" name="AvatarFile" class="form-control" />
+        </div>
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.FullName)
+            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.Gender)
+            @Html.DropDownListFor(m => m.Gender,
+                new SelectList(new[] { "Male", "Female", "Other" }, Model.Gender),
+                "Chọn giới tính",
+                new { @class = "form-control" })
+        </div>
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.BirthDate)
+            @Html.TextBoxFor(m => m.BirthDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+        </div>
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.Address)
+            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+        </div>
+
+        <hr />
+        <h4>Thông tin nghề nghiệp</h4>
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.Description)
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = 3 })
+        </div>
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.Specialties)
+            @Html.TextBoxFor(m => m.Specialties, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.ExperienceYears)
+            @Html.TextBoxFor(m => m.ExperienceYears, new { @class = "form-control", type = "number" })
+        </div>
+
+        <hr />
+        <h4>Tài khoản</h4>
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.PhoneNumber)
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+        </div>
+
+        <div class="form-check mb-3">
+            @Html.CheckBoxFor(m => m.IsActive  , new { @class = "form-check-input" })
+            @Html.LabelFor(m => m.IsActive , new { @class = "form-check-label" })
+        </div>
+
+        <button type="submit" class="btn btn-success">Lưu</button>
+        <a href="@Url.Action("Trainers","Admin")" class="btn btn-secondary">Hủy</a>
+    }
+</div>
